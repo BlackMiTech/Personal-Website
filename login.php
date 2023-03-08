@@ -185,7 +185,7 @@ $GetBrowser = GetBrowser();
 $time = date("Y-m-d H:i:s");//拿到时间
 
 //淘宝iP api
-$json = file_get_contents('http://ip.taobao.com/service/getIpInfo.php?ip=' . $ip);
+$json = file_get_contents('http://ip.taobao.com/outGetIpInfo?ip=' . $ip);
 
 $arr = json_decode($json);
 
@@ -275,98 +275,67 @@ if ($_SERVER['QUERY_STRING'] == "logout") {
 
 $html_login = <<<EOF
 
+<!DOCTYPE html>
 <html>
 <head>
-<title>BlackMi平台登陆</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<script src="http://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-<script src="../lib/js/protectweb.js" type="text/javascript"></script>
-
-<script>
-	function googleTranslateElementInit() {
-            new google.translate.TranslateElement({
-                layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL
-            }, 'google_translate_element');
-        }
-</script>
-<script type="text/javascript">
- 
-    function btnAction() {
-        alert(document.getElementById("xz").disabled);
- 
-        alert(2);
-    }
-    function check() {
-        //判断checkbox有没有被选中
-        if (document.getElementById("ch").checked == true) {
-            document.getElementById("xz").disabled = ""; //给BUTTON按钮的disabled属性赋值
- 
-        } else {
-            document.getElementById("xz").disabled = "disabled";
-        }
- 
-    }
- 
-    function checkedThis(obj) {
-        var test = document.getElementsByName('test'), test1 = document.getElementsByName('test1'), i, j, num = [0, 0];
- 
-        for (i = 0, j = test.length; i < j; i++) if (test[i].checked) num[0]++;
-        for (i = 0, j = test1.length; i < j; i++) if (test1[i].checked) num[1]++;
- 
-        if (num[0] == 1 && num[1] == 1) document.getElementById('xz').disabled = false;
-        else document.getElementById('xz').disabled = true;
-    } 
-</script>
-<style type="text/css">
-div{ margin:0 auto;}
-#loginform{width:600 px;height:500 px; border-radius: 10px;box-shadow: 1px 1px 1px 1px #888888;}
-	#bar {
-	padding: 10px;
-	width: 400 px;
-	margin: 20px auto;
-	}    </style>
-
+	<meta charset="UTF-8">
+	<title>BlackMi平台登陆</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="../lib/css/style.css">
+	<script src="http://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+	<script src="../lib/js/protectweb.js"></script>
+	<script>
+		function googleTranslateElementInit() {
+			new google.translate.TranslateElement({
+				layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL
+			}, 'google_translate_element');
+		}
+	</script>
+	<script>
+		function check() {
+			var xzBtn = document.getElementById("xz");
+			var chBox = document.getElementById("ch");
+			xzBtn.disabled = !chBox.checked;
+		}
+	</script>
 </head>
 <body>
-
-<div id="loginform">
-<div id="bar" style="align:center;">
-   <h1>申明：</h1>
-   <br>
-   <a>此页面尚处于开发阶段，该页面用于储存用户信息数据，以便改善用户体验。</a>
-<a>开发完毕时会将此页面进行隐藏式访问。</a>
-<br>
-<a>该页面正在更新，如您发现了个人地理位置或ip出现在此页面，因而侵犯了您的个人隐私，请联系我进行删除，对您造成的不便深表歉意。</a>
-      <br>
-<a>同时，应中国大陆各安全监管部门要求，您访问用户数据界面也会留下您的个人信息，以及点击该页面的次数，如发现您非法使用该页面用于获取用户数据，我们会遵循当地安全部门将信息提交进行处理。
-</a><br>
-<a><strong>以上情况仅会在您勾选“我同意上述协议”后进行，如您没有勾选，我们将不会对您的信息负责。</strong></a>
-<br>
-   <a>联系邮箱：jimmy@blackmiservice.com</a>
-
-      <br>
-  <a>-------------------------------</a><br>
-	<div id="google_translate_element" style="text-align:left;"></div>
-   <a>-------------------------------</a>
-<br>
-<br>
-      <a>应中国监管部门要求，须暂时向用户开放数据，直到页面完善，用于改善用户体验。</a>
-<br>
-<a>登陆密码为<strong>blackmiprivacytest</strong></a>
-	<h4>如果您同意此协议，请勾选下方的“我同意上述协议”，并输入安全码。</h4>
-    <div>
-<form action="" method="post">
- <input type="password" name="password" style="/* width:120px; */margin-top: 34px;/* height: 20px; */padding: 10px 16px;font-size: 18px;line-height: 1.3333333;border-radius: 5px;border: 1px solid #ccc;" placeholder="安全码" required="" autofocus="">
- <br>
-<input name="check" id="ch" type="checkbox" onclick="check()">
-<a>我同意上述协议</a>
- <br>
-<input type="submit" id="xz" value="登录" style="margin-left: 5px;padding: 10px 16px;font-size: 18px; border-radius: 6px;color: #fff;background-color: #337ab7;border-color: #2e6da4;user-select: none;background-image: none;border: 1px solid transparent;">
- 
- </form>
- </div>
-</div>
-</div>
+	<header>
+		<h1>声明：</h1>
+		<p>该页面用于储存用户信息数据，以便改善用户体验，目前处于开发阶段。开发完毕后将进行隐藏式访问。</p>
+		<p>如果您发现了个人地理位置或IP出现在此页面，因而侵犯了您的个人隐私，请联系我们进行删除，对您造成的不便深表歉意。</p>
+		<p>我们会遵循当地安全部门将信息提交进行处理。如有任何疑问或意见，请联系我们。</p>
+		<p>联系邮箱：jimmy@blackmiservice.com</p>
+	</header>
+	<main>
+		<div id="login-form">
+			<form action="" method="post">
+				<label for="password">安全码：</label>
+				<input type="password" name="password" id="password" required>
+				<br>
+				<label>
+					<input type="checkbox" name="check" id="ch" onclick="check()">
+					我同意上述协议
+				</label>
+				<br>
+				<input type="submit" id="xz" value="登录" disabled>
+			</form>
+			<p>应中国监管部门要求，须暂时向用户开放数据，直到页面完善，用于改善用户体验。登陆密码为 <strong>blackmiprivacytest</strong>。</p>
+			<p>如果您同意此协议，请勾选下方的“我同意上述协议”，并输入安全码。</p>
+		</div>
+	</main>
+	<footer>
+		<p>版权所有 &copy; 2023 BlackMi Inc.</p>
+	</footer>
+	<div id="google_translate_element"></div>
+	<script>
+		function googleTranslateElementInit() {
+			new google.translate.TranslateElement({
+				pageLanguage: 'zh-CN',
+				layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL
+			}, 'google_translate_element');
+		}
+	</script>
 </body>
 </html>
 
@@ -386,14 +355,6 @@ if (@$_SESSION['login'] != md5($adminkey)) {
     <meta charset="utf-8">
     <title>BlackMi流量统计页面</title>
 	<script src="../lib/js/protectweb.js" type="text/javascript"></script>
-    <script>
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({
-                layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL
-            }, 'google_translate_element');
-        }
-    </script>
-    <script src="http://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </head>
 <body>
 <div id="google_translate_element" style="text-align:right;"></div>
